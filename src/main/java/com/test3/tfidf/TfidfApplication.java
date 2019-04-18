@@ -1,21 +1,25 @@
 package com.test3.tfidf;
 
+import com.test3.tfidf.populator.FilePopulator;
+import com.test3.tfidf.watcher.FileWatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.test3.tfidf"})
+@EnableScheduling
 @Slf4j
 public class TfidfApplication {
 
@@ -23,20 +27,15 @@ public class TfidfApplication {
 		SpringApplication.run(TfidfApplication.class, args);
 	}
 
-	//@Autowired
-    //Palindrome palindrome;
-
 	@Bean
-    public ApplicationRunner commandLineRunner() {
-        return args -> {
-            String[] sourceArgs = args.getSourceArgs();
-            if(sourceArgs.length<1) {
-                log.error("Please specify an argument");
-                log.error("Usage: ./palindrome 12321");
-            } else {
-                String input = sourceArgs[0];
-            }
-        };
-    }
+	public ApplicationRunner commandLineRunner() {
+		return args -> {
+			log.error("Please specify an argument");
+		};
+	}
 
+	@Bean @Qualifier("SimpleCount")
+	public Map<String,Integer> simpleCountMap() {
+		return new ConcurrentHashMap<>();
+	}
 }
