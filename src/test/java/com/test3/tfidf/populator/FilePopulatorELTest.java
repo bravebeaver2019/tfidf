@@ -18,7 +18,9 @@ public class FilePopulatorELTest {
         // todo: depending on how critical this random is, maybe we should make better tests
         for (int i=0; i<10_000; i++) {
             int result = Integer.parseInt(expression.getValue(String.class));
-            assertTrue("random within boundaries (5_000-10_000)", result<10_000 && result>5_000);
+            boolean condition = result <= 10_000 && result >= 5_000;
+            if(!condition) log.error("" + result);
+            assertTrue("random within boundaries (5_000-10_000)", condition);
         }
     }
 }
