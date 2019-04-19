@@ -10,10 +10,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 @Slf4j
+/**
+ * This component performs a periodical term search and displays results.
+ */
 public class TfidfNotifier {
 
     @Value("${tfidf.search.term}")
@@ -22,17 +26,21 @@ public class TfidfNotifier {
     Integer limit;
 
     @Autowired
-    Tfidf tfidf;
+    Set<Tfidf> tfidfs;
 
     @Scheduled(fixedDelayString = "${tfidf.search.period}")
     public void notifyResult() {
-        log.info("----------------------- [" + term + "] term frequency -----------------------");
-        // compute rank for each document, then sort by tdidf frequency
-        List<SearchRank> ranks = tfidf.getDocuments().stream().map(document -> new SearchRank(tfidf.tdidf(document, term), term, document))
-                .sorted(Comparator.comparing(SearchRank::getFrequency).reversed()).collect(Collectors.toList());
-        // order by tfidf frequency, take the <limit> best results and log them
-        ranks.stream().filter( r -> r.getFrequency()>0 ).limit(limit).forEach(r -> log.info(r.toString()));
-        log.info("----------------------- [" + term + "] term frequency -----------------------");
+        tfidfs.stream().forEach(tfidf -> {
+            log.info("======================= [" + tfidf.getClass() + "] =======================");
+            log.info("----------------------- [" + term + "] term frequency -----------------------");
+            // compute rank for each document, then sort by tdidf frequency
+            List<SearchRank> ranks = tfidf.getDocuments().stream().map(document -> new SearchRank(tfidf.tdidf(document, term), term, document))
+                    .sorted(Comparator.comparing(SearchRank::getFrequency).reversed()).collect(Collectors.toList());
+            // order by tfidf frequency, take the <limit> best results and log them
+            ranks.stream().filter( r -> r.getFrequency()>0 ).limit(limit).forEach(r -> log.info(r.toString()));
+            log.info("----------------------- [" + term + "] term frequency -----------------------");
+            log.info("======================= [" + tfidf.getClass() + "] =======================");
+        });
     }
 
 }

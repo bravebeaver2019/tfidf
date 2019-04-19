@@ -30,15 +30,6 @@ public class TfidfApplication {
 
 	@Bean
 	public ApplicationRunner commandLineRunner() {
-		return args -> {
-			log.error("source args: " + Arrays.toString(args.getSourceArgs()));
-			log.error("nonopt args: " + args.getNonOptionArgs());
-			log.error("opt names: " + args.getOptionNames());
-		};
-	}
-
-	@Bean @Qualifier("SimpleCount")
-	public Map<String,Integer> simpleCountMap() {
-		return new ConcurrentHashMap<>();
+		return args -> {};
 	}
 }

@@ -5,8 +5,10 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public
-class SearchRank {
+/**
+ * displays a search result for a term in a doc.
+ */
+public class SearchRank {
     double frequency;
     String term;
     Document document;

@@ -1,12 +1,15 @@
 package com.test3.tfidf;
 
-import java.util.List;
+import java.util.Set;
 
+/**
+ * Main TFIDF algorithm object.
+ */
 public interface Tfidf {
 
     double tf(Document document, String term);
     double idf(String term);
     double tdidf(Document document, String term);
-    List<Document> getDocuments();
+    Set<Document> getDocuments();
 
 }

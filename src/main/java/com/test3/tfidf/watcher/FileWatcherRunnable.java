@@ -12,16 +12,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
+import java.util.Set;
 
-import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+import static java.nio.file.StandardWatchEventKinds.*;
 
 @Component
 @Scope("prototype")
 @Slf4j
+/**
+ * Searchs for files and sends them to all listeners.
+ */
 public class FileWatcherRunnable implements Runnable {
 
     @Autowired
-    List<Listener> documentListeners;
+    Set<Listener> documentListeners;
 
     @Value("${tfidf.search.dir}")
     String path;
@@ -32,7 +36,7 @@ public class FileWatcherRunnable implements Runnable {
         try {
             WatchService watcher = FileSystems.getDefault().newWatchService();
             Path dir = new File(path).toPath();
-            WatchKey key = dir.register(watcher, ENTRY_CREATE);
+            WatchKey key = dir.register(watcher, ENTRY_CREATE,ENTRY_MODIFY,OVERFLOW);
             while (true) {
                 log.info("Watcher daemon running...");
                 try {

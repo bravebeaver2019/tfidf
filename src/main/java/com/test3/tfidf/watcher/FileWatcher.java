@@ -9,6 +9,9 @@ import javax.annotation.PostConstruct;
 
 @Component
 @Slf4j
+/**
+ * Runs a file watcher daemon inside spring context.
+ */
 public class FileWatcher {
 
     @Autowired

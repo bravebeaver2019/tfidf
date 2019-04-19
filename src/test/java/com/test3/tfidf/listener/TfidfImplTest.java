@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,13 +25,8 @@ public class TfidfImplTest {
         document4 = new Document("doc4", "how");
         document5 = new Document("doc5", "how how");
         listener = new TfidfImpl();
-        listener.documents = Arrays.asList(document1, document2, document3, document4, document5);
-    }
-
-    @Test
-    public void testTFFrequentPhrase() {
-        //assertEquals(".how are." ,
-        //        0.2, listener.tf(document1, "how are"), DELTA);
+        listener.documents = new HashSet<>();
+        listener.documents.addAll(Arrays.asList(document1, document2, document3, document4, document5));
     }
 
     @Test

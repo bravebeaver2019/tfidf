@@ -6,12 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
 @Slf4j
-public class TfidfImpl implements Listener, Tfidf {
+public class TfidfExperimental implements Listener, Tfidf {
 
     @Value("${tfidf.tokenizer.delimiters}")
     String delimiters;
@@ -27,7 +29,7 @@ public class TfidfImpl implements Listener, Tfidf {
     @Override
     public double tf(Document document, String term) {
         double count = (double) document.words(delimiters).stream().filter(s-> s.equalsIgnoreCase(term) ).count();
-        return count / (double) document.words(delimiters).stream().count();
+        return (count / (double) document.words(delimiters).stream().count()) * 3; // obviously wrong
     }
 
     @Override
@@ -42,7 +44,7 @@ public class TfidfImpl implements Listener, Tfidf {
             }
         }
         if(count>0)
-            return Math.log( documents.size() / count);
+            return Math.log( documents.size() / count) * 3; // obviously wrong
         else
             return 0;
     }

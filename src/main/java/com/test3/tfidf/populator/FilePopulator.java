@@ -15,6 +15,9 @@ import java.util.UUID;
 
 @Component
 @Slf4j
+/**
+ * If enabled, populates filesystem with semirandom documents.
+ */
 public class FilePopulator {
 
     @Value("${tfidf.populator.enabled}")
