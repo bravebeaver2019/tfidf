@@ -25,6 +25,7 @@ public class TfidfImplTest {
         document4 = new Document("doc4", "how");
         document5 = new Document("doc5", "how how");
         listener = new TfidfImpl();
+        listener.delimiters = new String(" ");
         listener.documents = new HashSet<>();
         listener.documents.addAll(Arrays.asList(document1, document2, document3, document4, document5));
     }
