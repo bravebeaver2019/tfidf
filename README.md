@@ -1,6 +1,8 @@
 # Getting Started
 
 ### Building application
+You need to have JDK installed (tested with jdk10)
+
 Please, run the following command specifying the arguments
 ```bash
 ./build
