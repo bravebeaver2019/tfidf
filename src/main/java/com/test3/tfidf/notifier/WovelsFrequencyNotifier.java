@@ -19,7 +19,7 @@ public class WovelsFrequencyNotifier {
     @Qualifier("SimpleCount")
     Map<String,Integer> simpleCount;
 
-    @Scheduled(fixedDelay = 1_000)
+    //@Scheduled(fixedDelay = 5_000)
     public void notifyResult() {
         log.info("----------------------- Wovels frequency -----------------------");
         log.info(result("a"));

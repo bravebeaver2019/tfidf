@@ -6,10 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
-@Component
+//@Component
 @Slf4j
 public class ListenerImpl implements Listener {
 
@@ -19,8 +16,7 @@ public class ListenerImpl implements Listener {
     @Override
     public void index(Document document) {
         log.info("Indexing new document... " + document.getName());
-        List<String> words = Arrays.asList(document.getContent().split(" "));
-        words.forEach( word -> {
+        document.words().forEach(word -> {
             simpleCountIndexer.index(word);
         });
     }

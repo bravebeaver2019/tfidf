@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,7 +31,9 @@ public class TfidfApplication {
 	@Bean
 	public ApplicationRunner commandLineRunner() {
 		return args -> {
-			log.error("Please specify an argument");
+			log.error("source args: " + Arrays.toString(args.getSourceArgs()));
+			log.error("nonopt args: " + args.getNonOptionArgs());
+			log.error("opt names: " + args.getOptionNames());
 		};
 	}
 

@@ -4,12 +4,14 @@ import com.test3.tfidf.Document;
 import com.test3.tfidf.listener.Listener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.List;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 
@@ -19,14 +21,17 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 public class FileWatcherRunnable implements Runnable {
 
     @Autowired
-    Listener documentListener;
+    List<Listener> documentListeners;
+
+    @Value("${tfidf.search.dir}")
+    String path;
 
     @Override
     public void run() {
         log.info("Watcher daemon starting");
         try {
             WatchService watcher = FileSystems.getDefault().newWatchService();
-            Path dir = new File("/tmp").toPath();
+            Path dir = new File(path).toPath();
             WatchKey key = dir.register(watcher, ENTRY_CREATE);
             while (true) {
                 log.info("Watcher daemon running...");
@@ -37,7 +42,13 @@ public class FileWatcherRunnable implements Runnable {
                         Path filename = ev.context();
                         Path child = dir.resolve(filename);
                         log.info("new file found " + child);
-                        documentListener.index(new Document(filename.toString(), new String(Files.readAllBytes(child))));
+                        documentListeners.forEach( listener -> {
+                            try {
+                                listener.index(new Document(filename.toString(), new String(Files.readAllBytes(child))));
+                            } catch (IOException e) {
+                                throw new RuntimeException("could not notify listener ", e);
+                            }
+                        });
                     }
                     boolean valid = key.reset();
                     if (!valid) {
