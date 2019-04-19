@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -34,8 +35,17 @@ public class TfidfNotifier {
             log.info("======================= [" + tfidf.getClass() + "] =======================");
             log.info("----------------------- [" + term + "] term frequency -----------------------");
             // compute rank for each document, then sort by tdidf frequency
-            List<SearchRank> ranks = tfidf.getDocuments().stream().map(document -> new SearchRank(tfidf.tdidf(document, term), term, document))
-                    .sorted(Comparator.comparing(SearchRank::getFrequency).reversed()).collect(Collectors.toList());
+            List<SearchRank> ranks = tfidf.getDocuments().stream().map(
+                    // todo: split term in tokens and multiply each score before adding to Rank
+                    document -> {
+                        double tdidf = 1;
+                        List<String> strings = Arrays.asList(term.split(" "));
+                        for (int i = 0; i < strings.size(); i++) {
+                            tdidf = tdidf * tfidf.tdidf(document, strings.get(i));
+                        }
+                        return new SearchRank(tdidf, term, document);
+                    }
+            ).sorted(Comparator.comparing(SearchRank::getFrequency).reversed()).collect(Collectors.toList());
             // order by tfidf frequency, take the <limit> best results and log them
             ranks.stream().filter( r -> r.getFrequency()>0 ).limit(limit).forEach(r -> log.info(r.toString()));
             log.info("----------------------- [" + term + "] term frequency -----------------------");

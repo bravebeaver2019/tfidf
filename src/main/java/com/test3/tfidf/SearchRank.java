@@ -13,6 +13,6 @@ public class SearchRank {
     String term;
     Document document;
     public String toString() {
-        return "term: [" + term + "] frequency: " + String.format("%.2f",frequency) + " document: " + document.getName();
+        return "term: [" + term + "] frequency: " + String.format("%.6f",frequency) + " document: " + document.getName();
     }
 }

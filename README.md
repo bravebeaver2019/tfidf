@@ -9,6 +9,8 @@ Please, run the following command specifying the arguments
 Please, run the following command specifying the arguments
 ```bash
 ./tfidf --tfidf.search.term="abc" --tfidf.search.limit=5 --tfidf.search.period=5000 --tfidf.populator.enabled=true --tfidf.search.dir=/tmp
+or
+./tfidf --tfidf.search.term="abc some common" --tfidf.search.limit=5 --tfidf.search.period=5000 --tfidf.populator.enabled=true --tfidf.search.dir=/tmp
 ```
 --tfidf.populator.enabled=true in case you want the app to populate the filesystem
 --tfidf.populator.enabled=false in case you want to add the files by yourself
@@ -51,9 +53,11 @@ Please, run the following command specifying the arguments
 
 Multiple Tfidf implementations can be added by just implementing Tfidf and Listener interfaces
 
+### Comments
+* Enable/Disable Tfidf implementations by just commenting @Component annotation
+
 ### Things to do
-* Many more unit tests
-* Combine scores for multiple search terms multiplying each score
+* Some more unit tests
 
 ### Alternatives considered
 

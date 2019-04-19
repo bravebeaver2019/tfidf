@@ -15,6 +15,7 @@ public class Document {
     private String content;
 
     public List<String> words(String delimiters) {
+        // todo: test this method
         List<String> strings = new ArrayList<>();
         StringTokenizer stringTokenizer = new StringTokenizer(content, delimiters);
         while (stringTokenizer.hasMoreTokens()) {
