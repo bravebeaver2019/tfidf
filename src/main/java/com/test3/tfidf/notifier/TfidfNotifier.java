@@ -36,12 +36,12 @@ public class TfidfNotifier {
             log.info("----------------------- [" + term + "] term frequency -----------------------");
             // compute rank for each document, then sort by tdidf frequency
             List<SearchRank> ranks = tfidf.getDocuments().stream().map(
-                    // todo: split term in tokens and multiply each score before adding to Rank
+                    // todo: refactor to extract method and DEEP test
                     document -> {
                         double tdidf = 1;
                         List<String> strings = Arrays.asList(term.split(" "));
-                        for (int i = 0; i < strings.size(); i++) {
-                            tdidf = tdidf * tfidf.tdidf(document, strings.get(i));
+                        for (String string : strings) {
+                            tdidf = tdidf * tfidf.tdidf(document, string);
                         }
                         return new SearchRank(tdidf, term, document);
                     }
