@@ -19,6 +19,7 @@ or
 
 ### Design document
 
+```
                               +----------------------------+
                               |                            |
                               |  Tfidf.java                |
@@ -52,6 +53,7 @@ or
 |                   |
 |                   |
 +-------------------+
+```
 
 Multiple Tfidf implementations can be added by just implementing Tfidf and Listener interfaces
 
