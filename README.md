@@ -58,7 +58,7 @@ or
 Multiple Tfidf implementations can be added by just implementing Tfidf and Listener interfaces
 
 ### Comments
-* Enable/Disable Tfidf implementations by just commenting @Component annotation
+* Switch between Tfidf implementations by just adding @Primary annotation to one of them
 
 ### Things to do
 * Some more unit tests
