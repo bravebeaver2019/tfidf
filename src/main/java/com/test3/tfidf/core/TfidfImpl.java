@@ -1,15 +1,18 @@
-package com.test3.tfidf.listener;
+package com.test3.tfidf.core;
 
 import com.test3.tfidf.Document;
 import com.test3.tfidf.Tfidf;
+import com.test3.tfidf.listener.Listener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
+@Primary
 @Slf4j
 public class TfidfImpl implements Listener, Tfidf {
 

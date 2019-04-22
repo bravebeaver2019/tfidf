@@ -1,6 +1,7 @@
-package com.test3.tfidf.listener;
+package com.test3.tfidf.core;
 
 import com.test3.tfidf.Document;
+import com.test3.tfidf.core.TfidfImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

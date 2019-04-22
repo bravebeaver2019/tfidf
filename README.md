@@ -23,17 +23,17 @@ or
                               +----------------------------+
                               |                            |
                               |  Tfidf.java                |
-                              |                            |         +------------------------------+
-+-------------------+         |                            |         |                              |
-|                   +-------->+                            +<--------+                              |
-|FileWatcher.java   |         +----------------------------+         |                              |
-|                   |                                                |                              |
-|                   |                                                |  Notifier.java               |
-|                   +-----+   +----------------------------+         |                              |
-+--------+----------+     |   |                            |         |                              |
-         |                +-->+  TfidfExperimental.java    |         |                              |
-         |                    |                            +<--------+                              |
-         |                    |                            |         +------------------------------+
+                              |                            |         +------------------------------+        +----------------+
++-------------------+         |                            |         |                              |        |                |
+|                   +-------->+                            +<--------+                              |        |                |
+|FileWatcher.java   |         +----------------------------+         |                              |        |                |
+|                   |                                                |                              |        |                |
+|                   |                                                |  Search.java                 +<-------+  Notifier.java |
+|                   +-----+   +----------------------------+         |                              |        |                |
++--------+----------+     |   |                            |         |                              |        |                |
+         |                +-->+  TfidfExperimental.java    |         |                              |        |                |
+         |                    |                            |<- - - - +                              |        |                |
+         |                    |                            |         +------------------------------+        +----------------+
          v                    |                            |
 +--------+----------+         +----------------------------+
 |                   |
@@ -63,5 +63,19 @@ Multiple Tfidf implementations can be added by just implementing Tfidf and Liste
 ### Things to do
 * Some more unit tests
 
-### Alternatives considered
+### Complexity
+Current system complexity would be
+Write (doc scanning): O(1) or O(log n)
+Read (querying): O(n log n)
 
+### Alternatives considered
+Current system implementation is just a basic demonstration of the algorithm. Here the calculation of the term score is
+done upon read which would be very inefficient in a real environment. In order to do it properly I should split the document
+after scanning, perform the calculations and keep up to date a pre calculated table with the terms scores.
+This would have two significan impacts:
+* The complexity of the R/W operations would be inverted
+* The system will have to implement some synchronization mechanism to avoid serveral threads updating the same terms scores.
+Now, since write is very fast we didnt have to implement multithreading on it but if we switch to a slow write scenario,
+we would have to implement some way to parallelize this task. Another interesting feature to implement would be partitioning,
+we could split the terms into several sets and let subsystems deal with them, on this way we would reduce the number of
+threads blocked.
